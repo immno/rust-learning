@@ -1,7 +1,7 @@
 # 1 安装
 [安装指南](https://www.rust-lang.org/tools/install)  
-[向导指南](https://www.rust-lang.org/learn/get-started)
-[国内源](https://mirrors.ustc.edu.cn/help/crates.io-index.html)
+[向导指南](https://www.rust-lang.org/learn/get-started)  
+[国内源](https://mirrors.ustc.edu.cn/help/crates.io-index.html)  
 Rust 更新非常频繁。如果您之前安装过 Rustup，则您的 Rust 版本可能已经过时。  
 通过运行 `rustup update` 获取最新版本的 Rust。  
 
@@ -22,7 +22,7 @@ Rust 更新非常频繁。如果您之前安装过 Rustup，则您的 Rust 版�
 
 ## 1.3 官方demo
 在`Cargo.toml`文件中:
-```
+```toml
 [dependencies]
 ferris-says = "0.2"
 ```
