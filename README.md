@@ -42,3 +42,71 @@ fn main() {
 }
 ```
 运行这个应用: `cargo run`
+
+## 1.4 多模块workspace
+修改`Cargo.toml`文件包含了：整个工作空间。不会包含 `[package]`
+```toml
+[workspace]
+
+members = [
+    "adder",
+]
+```
+接下来，在项目`根目录`运行`cargo new adder`：
+```shell
+$ cargo new adder
+     Created binary (application) `adder` project
+```
+到此为止，可以运行`cargo build`来构建工作空间。`根目录`中的文件应该看起来像这样：
+```haml
+├── Cargo.lock
+├── Cargo.toml
+├── adder
+│   ├── Cargo.toml
+│   └── src
+│       └── main.rs
+└── target
+```
+接着新生成一个叫做`add-one`的库(lib)：
+```shell
+$ cargo new add-one --lib
+     Created library `add-one` project
+```
+```haml
+├── Cargo.lock
+├── Cargo.toml
+├── add-one
+│   ├── Cargo.toml
+│   └── src
+│       └── lib.rs
+├── adder
+│   ├── Cargo.toml
+│   └── src
+│       └── main.rs
+└── target
+```
+在`add-one/src/lib.rs`文件中，增加一个`add_one`函数：
+文件名: `add-one/src/lib.rs`
+```rust
+pub fn add_one(x: i32) -> i32 {
+    x + 1
+}
+```
+现在工作空间中有了一个库`crate`，让`adder`依赖库`crate add-one`。首先需要在`adder/Cargo.toml`文件中增加`add-one`作为路径依赖：
+文件名: `adder/Cargo.toml`
+```toml
+[dependencies]
+
+add-one = { path = "../add-one" }
+```
+`cargo`并不假定工作空间中的Crates会相互依赖，所以需要明确表明工作空间中 crate 的依赖关系。  
+接下来，在`adder crate`中使用`add-one crate`的函数`add_one`打开`adder/src/main.rs`在顶部增加一行`use add-one`;将库`crate`引入作用域。  
+接着修改`main`函数来调用`add_one`函数,文件名: `adder/src/main.rs`:  
+```rust
+use add_one;
+
+fn main() {
+    let num = 10;
+    println!("Hello, world! {} plus one is {}!", num, add_one::add_one(num));
+}
+```

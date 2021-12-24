@@ -3,6 +3,13 @@
 version = 3
 
 [[package]]
+name = "demo"
+version = "0.1.0"
+dependencies = [
+ "ferris-says",
+]
+
+[[package]]
 name = "ferris-says"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -14,11 +21,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "rust-learning"
+name = "lesson_3"
 version = "0.1.0"
-dependencies = [
- "ferris-says",
-]
 
 [[package]]
 name = "smallvec"
