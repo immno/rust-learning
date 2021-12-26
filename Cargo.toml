@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "demo",
+    "call_server",
     "lesson_3",
     "lesson_4",
     "lesson_5",
