@@ -273,11 +273,15 @@ dependencies = [
  "axum 0.4.3",
  "clap",
  "colored",
+ "http",
+ "hyper",
  "jsonxf",
  "mime",
  "tokio",
  "tower",
  "tower-http 0.1.2",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]

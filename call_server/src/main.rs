@@ -1,17 +1,17 @@
-use std::ops::Add;
+use std::net::SocketAddr;
 
 use anyhow::Result;
 use axum::{
-    body::Body,
-    http::Request,
-    http::StatusCode,
-    http::Uri,
+    body::{Body, Bytes},
+    error_handling::HandleErrorLayer,
+    http::{header, Request, StatusCode},
     Router,
-    routing::get,
+    routing::{get, post},
 };
 use clap::Parser;
 use colored::*;
 use mime::Mime;
+use tower::{BoxError, filter::AsyncFilterLayer, ServiceBuilder};
 
 #[tokio::main]
 async fn main() {
@@ -20,30 +20,52 @@ async fn main() {
 
     // build our application with a single route
     let app = Router::new()
-        .route(&opts.context, get(get_handler).post(post_handler));
+        .route(&opts.context, get(|| async move { "Ok" }))
+        .route(&opts.context, post(|| async move { "Ok" }))
+        .layer(
+            ServiceBuilder::new()
+                .layer(HandleErrorLayer::new(|error| async move {
+                    (
+                        StatusCode::INTERNAL_SERVER_ERROR,
+                        format!("Unhandled internal error: {}", error),
+                    )
+                }))
+                // .layer(AndThenLayer::new(map_response))
+                .layer(AsyncFilterLayer::new(map_request)),
+        );
 
     // // 运行 web 服务器
-    let addr = String::from("0.0.0.0:") + &opts.port.to_string();
-    println!("Listening on {}", addr);
+    let addr = SocketAddr::from(([0, 0, 0, 0], opts.port));
+    println!("Listening on {:?}{}\n", addr, opts.context);
 
     // run it with hyper on localhost:3000
-    axum::Server::bind(&addr.parse().unwrap())
+    axum::Server::bind(&addr)
         .serve(app.into_make_service())
         .await
         .unwrap();
 }
 
-// 处理get请求
-async fn get_handler(req: Request<Body>) -> Result<&'static str, StatusCode> {
-    print_req(&req).await;
-    Ok("ok")
+async fn map_request(req: Request<Body>) -> Result<Request<Body>, BoxError> {
+    print_req(&req);
+    let (parts, body) = req.into_parts();
+    let bytes = buffer_and_print(body).await?;
+    let req = Request::from_parts(parts, Body::from(bytes));
+    Ok(req)
 }
 
-// 处理POST请求
-async fn post_handler(req: Request<Body>) -> Result<&'static str, StatusCode> {
-    print_req(&req).await;
-    Ok("ok")
+async fn buffer_and_print<B>(body: B) -> Result<Bytes, BoxError>
+    where
+        B: axum::body::HttpBody<Data=Bytes>,
+        B::Error: Into<BoxError>,
+{
+    let bytes = hyper::body::to_bytes(body).await.map_err(Into::into)?;
+    if let Ok(body) = std::str::from_utf8(&bytes) {
+        println!("{}\n", jsonxf::pretty_print(body).unwrap().cyan())
+        // tracing::debug!("{:?}\n",  body);
+    }
+    Ok(bytes)
 }
+
 
 /// 回调服务器；用来测试非结构化产品的数据订阅功能。
 #[derive(Parser, Debug)]
@@ -60,42 +82,42 @@ struct Opts {
 
 fn parse_url(context: &str) -> Result<String> {
     let root = String::from("/");
-    if context.eq(&root) {
-        return Ok(root);
-    }
     let mut path = String::from("");
-    if !context.eq(&root) && !context.starts_with(&root) {
+    if context.starts_with(&root) {
+        path.push_str(context);
+    } else {
         path.push_str(&root);
         path.push_str(context);
     }
-    if !context.eq(&root) && !context.ends_with(&root) {
+    if !context.ends_with(&root) {
         path.push_str(&root);
     }
     Ok(path)
 }
 
-
 // 打印整个请求
-async fn print_req(req: &Request<Body>) -> Result<()> {
-    let method = req.method().as_str();
-    let uri = req.uri().to_string();
-    println!("{} {} \n", method, uri);
-
+fn print_req(req: &Request<Body>) {
     print_status(req);
-    print_headers(req);
-    // let mime = get_content_type(&req);
-    let body = req.body();
-    // print_body(mime, &body);
-    Ok(())
+    print_uri(req);
+    // print_headers(req);
 }
 
 // 打印服务器版本号 + 状态码
 fn print_status(req: &Request<Body>) {
-    let status = format!("{:?}", req.version()).blue();
-    println!("{}\n", status);
+    let mime = get_content_type(req);
+    let status = format!("{:?} {}", req.version(), mime.as_ref().map_or("", |m| m.essence_str())).blue();
+    println!("{}", status);
+}
+
+// 打印服务器版本号 + 状态码
+fn print_uri(req: &Request<Body>) {
+    let method = req.method().as_str();
+    let uri = req.uri().to_string();
+    println!("{} {}", method.green(), uri.green());
 }
 
 // 打印服务器返回的 HTTP header
+#[allow(dead_code)]
 fn print_headers(req: &Request<Body>) {
     for (name, value) in req.headers() {
         println!("{}: {:?}", name.to_string().green(), value);
@@ -103,24 +125,9 @@ fn print_headers(req: &Request<Body>) {
     print!("\n");
 }
 
-// 打印服务器请求的 HTTP body
-// fn print_body(m: Option<Mime>, body: &Body) {
-//     body.data();
-//     match m {
-//         // 对于 "application/json" 我们 pretty print
-//         Some(v) if v == mime::APPLICATION_JSON => {
-//             println!("{}", jsonxf::pretty_print(body).unwrap().cyan())
-//         }
-//         // 其它 mime type，我们就直接输出
-//         _ => println!("{}", body),
-//     }
-// }
-
-
-//
 // 将服务器返回的 content-type 解析成 Mime 类型
-// fn get_content_type(resp: &Request<Body>) -> Option<Mime> {
-//     resp.headers()
-//         .get(header::CONTENT_TYPE)
-//         .map(|v| v.to_str().unwrap().parse().unwrap())
-// }
+fn get_content_type(resp: &Request<Body>) -> Option<Mime> {
+    resp.headers()
+        .get(header::CONTENT_TYPE)
+        .map(|v| v.to_str().unwrap().parse().unwrap())
+}

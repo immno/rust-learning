@@ -15,4 +15,7 @@ clap = { version = "3.0.0-rc.8", features = ["derive"] } # 命令行解析
 tokio = { version = "1", features = ["full"] } # 异步处理库
 tower = { version = "0.4", features = ["util", "timeout", "load-shed", "limit", "hedge"] } # 服务处理及中间件
 tower-http = { version = "0.1", features = ["add-extension", "compression-full", "trace"] } # http 中间件
-
+http = "0.2.1"
+tracing = "0.1" # 日志和追踪
+tracing-subscriber = "0.2" # 日志和追踪
+hyper = "0.14.16"
