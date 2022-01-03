@@ -1,0 +1,18 @@
+[package]
+name = "lesson_6_py"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"] # 使用 cdylib 类型
+
+[dependencies]
+lesson_6 = { path = "../lesson_6" } # 引入 queryer
+tokio = { version = "1", features = ["full"] }
+
+[dependencies.pyo3] # 引入 pyo3
+version = "0.14"
+features = ["extension-module"]
+
+[build-dependencies]
+pyo3-build-config = "0.14"
