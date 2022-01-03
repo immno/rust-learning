@@ -7,7 +7,7 @@ use std::io::Cursor;
 async fn main() -> Result<()> {
     tracing_subscriber::fmt::init();
 
-    let url = "http://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.csv";
+    let url = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.csv";
     let data = reqwest::get(url).await?.text().await?;
 
     // 使用 polars 直接请求
