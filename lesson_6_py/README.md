@@ -9,8 +9,8 @@ maturin develop
 # 测试
 构建完成后，可以用`ipython`测试
 ```python
-import queryer_py
-sql = queryer_py.example_sql()
-print(queryer_py.query(sql, 'csv'))
-print(queryer_py.query(sql, 'json'))
+import lesson_6_py
+sql = lesson_6_py.example_sql()
+print(lesson_6_py.query(sql, 'csv'))
+print(lesson_6_py.query(sql, 'json'))
 ```
