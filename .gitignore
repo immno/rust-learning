@@ -1,8 +1,4 @@
 target/
-/.idea/
+.idea
 *.iml
-
-
-# Added by cargo
-
-/target
+.env
