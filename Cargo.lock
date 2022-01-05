@@ -1264,6 +1264,10 @@ name = "lesson_8"
 version = "0.1.0"
 
 [[package]]
+name = "lesson_9"
+version = "0.1.0"
+
+[[package]]
 name = "lexical"
 version = "5.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
