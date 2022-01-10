@@ -1,6 +1,9 @@
 use std::collections::HashMap;
+use std::fs::File;
+use std::io::prelude::*;
 use std::mem::{align_of, size_of};
 
+// example 1
 struct S1 {
     a: u8,
     b: u16,
@@ -13,7 +16,7 @@ struct S2 {
     b: u16,
 }
 
-// example 1
+// example 2
 enum E {
     A(f64),
     B(HashMap<String, String>),
@@ -37,9 +40,11 @@ macro_rules! show_size {
     };
 }
 
-fn main() {
-    println!("sizeof S1: {}, S2: {}", size_of::<S1>(), size_of::<S2>());
-    println!("alignof S1: {}, S2: {}", align_of::<S1>(), align_of::<S2>());
+// example 3
+fn main() -> std::io::Result<()> {
+    let mut file = File::create("foo.txt")?;
+    file.write_all(b"hello mno")?;
+    Ok(())
 }
 
 #[cfg(test)]
@@ -50,6 +55,12 @@ mod tests {
 
     #[test]
     fn example_1() {
+        println!("sizeof S1: {}, S2: {}", size_of::<S1>(), size_of::<S2>());
+        println!("alignof S1: {}, S2: {}", align_of::<S1>(), align_of::<S2>());
+    }
+
+    #[test]
+    fn example_2() {
         show_size!(header);
         show_size!(u8);
         show_size!(f64);
@@ -61,6 +72,7 @@ mod tests {
         show_size!(std::io::Error);
         show_size!(HashMap<String,String>);
         show_size!(E);
+        show_size!(Result<String,()>);
     }
 
 }
