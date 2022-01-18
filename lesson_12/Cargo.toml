@@ -1,0 +1,21 @@
+[package]
+name = "lesson_12"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "example"
+path = "src/example.rs"
+#运行cargo test时，是否需要执行bin crate中的单元测试。默认值为 true。
+test = false
+#运行cargo bench时，是否需要执行bin crate中的基准测试。默认值为 true。
+bench = false
+
+[[bin]]
+name = "struct"
+path = "src/struct.rs"
+test = false
+bench = false
+
+[dependencies]
