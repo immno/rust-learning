@@ -1,0 +1,38 @@
+[package]
+name = "lesson_13"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "example"
+path = "src/example.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "parse"
+path = "src/parse.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "parse2"
+path = "src/parse2.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "add"
+path = "src/add.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "animal"
+path = "src/animal.rs"
+test = false
+bench = false
+
+[dependencies]
+regex = "1"
