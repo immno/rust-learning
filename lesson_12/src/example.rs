@@ -56,10 +56,23 @@ mod tests {
         println!("PI:{}, E: {}, V: {}, V1: {}", PI, E, V, V1);
     }
 
-    // example_5
+    // example_6
     pub enum Cow<'a, B: ?Sized + 'a> where B: ToOwned,
     {
         Borrowed(&'a B),
         Owned(<B as ToOwned>::Owned),
+    }
+
+    // example_8
+    // 会进行单态化
+    fn id<T>(x: T) -> T {
+        return x;
+    }
+
+    #[test]
+    fn example_8() {
+        let int = id(10);
+        let string = id("mno");
+        println!("{}, {}", int, string);
     }
 }

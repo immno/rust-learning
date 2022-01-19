@@ -18,4 +18,10 @@ path = "src/struct.rs"
 test = false
 bench = false
 
+[[bin]]
+name = "questions"
+path = "src/questions.rs"
+test = false
+bench = false
+
 [dependencies]
