@@ -1,0 +1,39 @@
+[package]
+name = "lesson_14"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "developer"
+path = "src/developer.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "rawbuffer"
+path = "src/rawbuffer.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "arc"
+path = "src/arc.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "from_asref"
+path = "src/from_asref.rs"
+test = false
+bench = false
+
+
+[[bin]]
+name = "buffer"
+path = "src/buffer.rs"
+test = false
+bench = false
+
+[dependencies]
