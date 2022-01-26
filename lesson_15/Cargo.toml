@@ -1,0 +1,42 @@
+[package]
+name = "lesson_15"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "myallocator"
+path = "src/myallocator.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "url_to_kv"
+path = "src/url_to_kv.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "cow_json"
+path = "src/cow_json.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "mutex_guard"
+path = "src/mutex_guard.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "my_string"
+path = "src/my_string.rs"
+test = false
+bench = false
+
+[dependencies]
+url = { version = "2", features = ["serde"] }
+serde = { version = "1", features = ["derive"] } # 序列化/反序列化数据
+serde_json = { version = "1.0", default-features = false, features = ["alloc"] }
+lazy_static = "1" # 通过宏更方便地初始化静态变量

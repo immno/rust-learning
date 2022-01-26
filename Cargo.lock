@@ -1210,6 +1210,16 @@ name = "lesson_14"
 version = "0.1.0"
 
 [[package]]
+name = "lesson_15"
+version = "0.1.0"
+dependencies = [
+ "lazy_static",
+ "serde",
+ "serde_json",
+ "url",
+]
+
+[[package]]
 name = "lesson_3"
 version = "0.1.0"
 dependencies = [
@@ -3311,6 +3321,7 @@ dependencies = [
  "idna",
  "matches",
  "percent-encoding",
+ "serde",
 ]
 
 [[package]]
