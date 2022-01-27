@@ -11,5 +11,17 @@ path = "src/test_slice.rs"
 test = false
 bench = false
 
+[[bin]]
+name = "test_str"
+path = "src/test_str.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "test_box"
+path = "src/test_box.rs"
+test = false
+bench = false
+
 
 [dependencies]
