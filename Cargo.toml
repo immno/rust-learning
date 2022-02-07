@@ -2,6 +2,7 @@
 members = [
     "demo",
     "call_server",
+    "hdfs",
     "lesson_3",
     "lesson_4",
     "lesson_5",

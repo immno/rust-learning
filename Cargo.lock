@@ -852,6 +852,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "hdfs"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "colored",
+]
+
+[[package]]
 name = "hdrhistogram"
 version = "6.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
