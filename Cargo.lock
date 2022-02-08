@@ -1240,6 +1240,10 @@ name = "lesson_18"
 version = "0.1.0"
 
 [[package]]
+name = "lesson_19"
+version = "0.1.0"
+
+[[package]]
 name = "lesson_3"
 version = "0.1.0"
 dependencies = [
