@@ -24,4 +24,5 @@ members = [
     "lesson_20",
     "lesson_21_kv_server",
     "lesson_22_kv_server",
+    "lesson_mid_term_rgrep",
 ]

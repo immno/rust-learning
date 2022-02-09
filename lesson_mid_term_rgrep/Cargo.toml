@@ -1,0 +1,13 @@
+[package]
+name = "lesson_mid_term_rgrep"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1" # 错误处理
+clap = { version = "3.0.14", features = ["derive"] } # 命令行解析
+colored = "2" # 命令终端多彩显示
+globset = "0.4.8"
+regex = "1"
