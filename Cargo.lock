@@ -1466,8 +1466,6 @@ version = "0.1.0"
 name = "lesson_mid_term_rgrep"
 version = "0.1.0"
 dependencies = [
- "anyhow",
- "clap",
  "colored",
  "globset",
  "regex",

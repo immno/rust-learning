@@ -1,10 +1,9 @@
 use std::{env, fs};
 use std::env::Args;
 use std::fs::File;
-use std::io::{BufRead, BufReader, Write};
+use std::io::{BufRead, BufReader};
 use std::path::{Path, PathBuf};
 
-use clap::Parser;
 use colored::Colorize;
 use globset::{Glob, GlobMatcher};
 use regex::{Match, Regex};
@@ -34,10 +33,10 @@ impl FileSearcher {
         FileSearcher { context, file }
     }
 
-    fn search(&self) -> std::io::Result<()> {
+    fn search(&self) {
         self.print_file();
         let mut row = 1;
-        let file = File::open(&self.file)?;
+        let file = File::open(&self.file).unwrap();
         for line in BufReader::new(file).lines() {
             if let Ok(context) = line {
                 let str = context.as_str();
@@ -47,7 +46,6 @@ impl FileSearcher {
             }
             row += 1;
         }
-        Ok(())
     }
 
     fn print_file(&self) {
@@ -73,7 +71,7 @@ impl TryFrom<Args> for Opts {
     type Error = String;
 
     fn try_from(s: Args) -> Result<Self, Self::Error> {
-        let mut args: Vec<String> = s.collect();
+        let args: Vec<String> = s.collect();
         if args.len() < 3 {
             return Err("参数数量错误.".into());
         }
