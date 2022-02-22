@@ -2286,6 +2286,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "lesson_33"
+version = "0.1.0"
+dependencies = [
+ "lazy_static",
+]
+
+[[package]]
 name = "lesson_4"
 version = "0.1.0"
 dependencies = [
