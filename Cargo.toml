@@ -36,4 +36,5 @@ members = [
     "lesson_31_bzlib_sys",
     "lesson_33",
     "lesson_34",
+    "lesson_35",
 ]

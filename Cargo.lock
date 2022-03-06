@@ -2346,6 +2346,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "lesson_35"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+]
+
+[[package]]
 name = "lesson_4"
 version = "0.1.0"
 dependencies = [
