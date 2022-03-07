@@ -70,27 +70,33 @@ mod tests {
     }
 
     fn test_basic_interface(store: impl Storage) {
+        // 第一次 set 会创建 table，插入 key 并返回 None（之前没值）
         let v = store.set("t1", "hello".into(), "world".into());
         assert!(v.unwrap().is_none());
-
+        // 再次 set 同样的 key 会更新，并返回之前的值
         let v1 = store.set("t1", "hello".into(), "world1".into());
-        assert_eq!(v1, Ok(Some("world".into())));
+        assert_eq!(v1.unwrap(), Some("world".into()));
 
+        // get 存在的 key 会得到最新的值
         let v = store.get("t1", "hello");
-        assert_eq!(v, Ok(Some("world1".into())));
+        assert_eq!(v.unwrap(), Some("world1".into()));
 
-        assert_eq!(Ok(None), store.get("t1", "hello1"));
-        assert!(store.get("t2", "hello").unwrap().is_none());
+        // get 不存在的 key 或者 table 会得到 None
+        assert_eq!(None, store.get("t1", "hello1").unwrap());
+        assert!(store.get("t2", "hello1").unwrap().is_none());
 
-        assert_eq!(store.contains("t1", "hello"), Ok(true));
-        assert_eq!(store.contains("t1", "hello1"), Ok(false));
-        assert_eq!(store.contains("t2", "hello"), Ok(false));
+        // contains 纯在的 key 返回 true，否则 false
+        assert!(store.contains("t1", "hello").unwrap());
+        assert!(!store.contains("t1", "hello1").unwrap());
+        assert!(!store.contains("t2", "hello").unwrap());
 
+        // del 存在的 key 返回之前的值
         let v = store.del("t1", "hello");
-        assert_eq!(v, Ok(Some("world1".into())));
+        assert_eq!(v.unwrap(), Some("world1".into()));
 
-        assert_eq!(Ok(None), store.del("t1", "hello1"));
-        assert_eq!(Ok(None), store.del("t2", "hello"));
+        // del 不存在的 key 或 table 返回 None
+        assert_eq!(None, store.del("t1", "hello1").unwrap());
+        assert_eq!(None, store.del("t2", "hello").unwrap());
     }
 
     fn test_get_all(store: impl Storage) {

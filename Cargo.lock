@@ -2353,6 +2353,28 @@ dependencies = [
 ]
 
 [[package]]
+name = "lesson_36_kv_server"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-prost",
+ "bytes 1.1.0",
+ "dashmap",
+ "flate2",
+ "futures",
+ "http",
+ "prost 0.9.0",
+ "prost-build 0.9.0",
+ "sled",
+ "tempfile",
+ "thiserror",
+ "tokio",
+ "tokio-util",
+ "tracing",
+ "tracing-subscriber 0.3.8",
+]
+
+[[package]]
 name = "lesson_4"
 version = "0.1.0"
 dependencies = [

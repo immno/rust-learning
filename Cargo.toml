@@ -37,4 +37,5 @@ members = [
     "lesson_33",
     "lesson_34",
     "lesson_35",
+    "lesson_36_kv_server",
 ]
